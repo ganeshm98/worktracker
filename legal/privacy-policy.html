@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>MyWorkTracking Privacy Policy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f5f8fc;
+    --surface: #ffffff;
+    --ink: #142544;
+    --text: #37476a;
+    --text-muted: #6b7999;
+    --line: #dde5f1;
+    --line-strong: #c4d1e6;
+    --accent-blue: #2451b5;
+    --accent-blue-ink: #16357f;
+    --accent-blue-soft: #e9eff9;
+    --accent-green: #1e8f63;
+    --accent-green-soft: #e5f5ec;
+    --shadow: 0 1px 2px rgba(20, 37, 68, 0.04), 0 8px 24px rgba(20, 37, 68, 0.05);
+
+    --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --font-body: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0a1220;
+      --surface: #101b2c;
+      --ink: #eaf0fb;
+      --text: #c1cee4;
+      --text-muted: #8194b5;
+      --line: #223250;
+      --line-strong: #2d4066;
+      --accent-blue: #6e9bf5;
+      --accent-blue-ink: #a9c4ff;
+      --accent-blue-soft: rgba(110, 155, 245, 0.13);
+      --accent-green: #45cf94;
+      --accent-green-soft: rgba(69, 207, 148, 0.13);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.28);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0a1220;
+    --surface: #101b2c;
+    --ink: #eaf0fb;
+    --text: #c1cee4;
+    --text-muted: #8194b5;
+    --line: #223250;
+    --line-strong: #2d4066;
+    --accent-blue: #6e9bf5;
+    --accent-blue-ink: #a9c4ff;
+    --accent-blue-soft: rgba(110, 155, 245, 0.13);
+    --accent-green: #45cf94;
+    --accent-green-soft: rgba(69, 207, 148, 0.13);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.28);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    a, .toc a, .back-top { transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease; }
+  }
+  ::selection { background: var(--accent-blue-soft); }
+
+  a { color: var(--accent-blue-ink); text-underline-offset: 2px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 2px; border-radius: 2px; }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+    display: grid;
+    grid-template-columns: 200px minmax(0, 700px);
+    gap: 56px;
+    justify-content: center;
+  }
+  @media (max-width: 900px) {
+    .page { grid-template-columns: minmax(0, 1fr); padding: 32px 20px 72px; }
+    .toc { display: none; }
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    grid-column: 1 / -1;
+    max-width: 700px;
+    margin: 0 auto 40px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .brand-row { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+  .brand-mark {
+    width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+    color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 17px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .brand-name { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(30px, 4.4vw, 40px);
+    line-height: 1.15;
+    color: var(--ink);
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+  .meta-row {
+    display: flex; flex-wrap: wrap; gap: 8px 18px;
+    font-family: var(--font-mono); font-size: 12.5px; color: var(--text-muted);
+  }
+  .meta-row strong { color: var(--text); font-weight: 600; }
+
+  /* ---------- At-a-glance ---------- */
+  .glance {
+    grid-column: 1 / -1;
+    max-width: 700px;
+    margin: 0 auto 48px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    padding: 26px 28px;
+  }
+  .glance-title {
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-blue-ink);
+    margin: 0 0 16px;
+  }
+  .glance-list { display: flex; flex-direction: column; gap: 14px; }
+  .glance-item { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  @media (min-width: 620px) {
+    .glance-item { grid-template-columns: 190px minmax(0, 1fr); gap: 18px; align-items: baseline; }
+  }
+  .glance-q { font-weight: 600; color: var(--ink); font-size: 14.5px; }
+  .glance-a { font-size: 14.5px; color: var(--text); }
+  .glance-a b { color: var(--accent-green); font-weight: 600; }
+
+  /* ---------- TOC ---------- */
+  .toc { position: sticky; top: 40px; align-self: start; }
+  .toc-label {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);
+    margin: 0 0 12px;
+  }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; border-left: 1px solid var(--line); }
+  .toc a {
+    display: block; font-size: 13px; color: var(--text-muted); text-decoration: none;
+    padding: 2px 0 2px 14px; margin-left: -1px; border-left: 1px solid transparent;
+  }
+  .toc a:hover { color: var(--accent-blue-ink); border-left-color: var(--accent-blue); }
+
+  /* ---------- Sections ---------- */
+  main { min-width: 0; }
+  section.clause { padding: 34px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 24px; }
+  section.clause:last-of-type { border-bottom: none; }
+  .clause-head { display: flex; align-items: baseline; gap: 12px; margin: 0 0 14px; }
+  .clause-num { font-family: var(--font-mono); font-size: 13px; color: var(--accent-blue); font-weight: 600; }
+  h2 { font-family: var(--font-display); font-weight: 600; font-size: 22px; color: var(--ink); margin: 0; text-wrap: balance; }
+  h3 { font-family: var(--font-body); font-weight: 700; font-size: 14.5px; color: var(--ink); margin: 20px 0 8px; }
+  p { margin: 0 0 14px; max-width: 62ch; }
+  p:last-child { margin-bottom: 0; }
+  ul, ol.plain { margin: 0 0 14px; padding-left: 22px; max-width: 62ch; }
+  li { margin-bottom: 7px; }
+  li:last-child { margin-bottom: 0; }
+  code { font-family: var(--font-mono); font-size: 0.88em; background: var(--accent-blue-soft); color: var(--accent-blue-ink); padding: 0.1em 0.4em; border-radius: 4px; }
+
+  .not-list { list-style: none; padding: 0; margin: 0 0 14px; display: flex; flex-direction: column; gap: 9px; }
+  .not-list li { display: flex; gap: 10px; align-items: flex-start; margin: 0; }
+  .not-list .mark {
+    flex-shrink: 0; width: 19px; height: 19px; border-radius: 50%;
+    background: var(--accent-green-soft); color: var(--accent-green);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; margin-top: 1px;
+  }
+
+  .callout {
+    background: var(--accent-blue-soft); border: 1px solid var(--line-strong);
+    border-radius: 12px; padding: 16px 18px; margin: 4px 0 16px; font-size: 14.5px;
+  }
+  .callout p { margin: 0; max-width: none; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    grid-column: 1 / -1; max-width: 700px; margin: 32px auto 0;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+    font-size: 13px; color: var(--text-muted);
+  }
+  .back-top { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); text-decoration: none; }
+  .back-top:hover { color: var(--accent-blue-ink); }
+
+  .tabular { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <div class="brand-row">
+        <span class="brand-mark" aria-hidden="true">W</span>
+        <span class="brand-name">MyWorkTracking</span>
+      </div>
+      <h1>Privacy Policy</h1>
+      <div class="meta-row">
+        <span>Effective: <strong>August 26, 2026</strong></span>
+        <span>Version: <strong class="tabular">1.0</strong></span>
+        <span>Applies to: <strong>the MyWorkTracking Chrome extension</strong></span>
+      </div>
+    </header>
+
+    <section class="glance" aria-labelledby="glance-title">
+      <p class="glance-title" id="glance-title">The short version</p>
+      <div class="glance-list">
+        <div class="glance-item">
+          <div class="glance-q">What do you collect?</div>
+          <div class="glance-a">Only what you type into the extension — work entries, todos, categories, flags, and notes. <b>Nothing else.</b></div>
+        </div>
+        <div class="glance-item">
+          <div class="glance-q">Where does it live?</div>
+          <div class="glance-a">In a Google Sheet inside <b>your own</b> Google Drive. MyWorkTracking has no server or database of its own.</div>
+        </div>
+        <div class="glance-item">
+          <div class="glance-q">Who can see it?</div>
+          <div class="glance-a"><b>Only you</b>, unless you choose to share that spreadsheet yourself.</div>
+        </div>
+        <div class="glance-item">
+          <div class="glance-q">Do you sell or share it?</div>
+          <div class="glance-a"><b>Never.</b> There's no analytics, no ad network, and no other party this data passes through.</div>
+        </div>
+        <div class="glance-item">
+          <div class="glance-q">How do I remove access?</div>
+          <div class="glance-a">Settings → Disconnect in the extension, or revoke access anytime from your Google Account's security settings.</div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="toc" aria-label="Sections">
+      <p class="toc-label">Contents</p>
+      <ol>
+        <li><a href="#overview">01 — Overview</a></li>
+        <li><a href="#collect">02 — Information we collect</a></li>
+        <li><a href="#use">03 — How it's used</a></li>
+        <li><a href="#not">04 — What we don't do</a></li>
+        <li><a href="#third-party">05 — Third-party services</a></li>
+        <li><a href="#retention">06 — Retention &amp; deletion</a></li>
+        <li><a href="#security">07 — Security</a></li>
+        <li><a href="#children">08 — Children's privacy</a></li>
+        <li><a href="#changes">09 — Changes to this policy</a></li>
+        <li><a href="#contact">10 — Contact</a></li>
+      </ol>
+    </nav>
+
+    <main>
+      <section class="clause" id="overview">
+        <div class="clause-head"><span class="clause-num">01</span><h2>Overview</h2></div>
+        <p>MyWorkTracking is a Chrome extension for logging daily work, todos, and follow-ups, using a Google Sheet you own as its only storage. This policy explains, in plain language, what the extension touches, where it goes, and what control you have over it.</p>
+        <p>The short answer is that there isn't much to explain: MyWorkTracking has no backend server. Every request it makes goes directly from your browser to Google's own APIs, using your own Google sign-in. We built it this way on purpose — it means your work data is never something we hold, and never something we could lose, leak, or sell even if we wanted to.</p>
+      </section>
+
+      <section class="clause" id="collect">
+        <div class="clause-head"><span class="clause-num">02</span><h2>Information we collect</h2></div>
+        <p>MyWorkTracking handles three narrow categories of information, all of which stay within Google's infrastructure under your own account:</p>
+        <h3>Work data you enter</h3>
+        <p>Descriptions, categories, priorities, flags, statuses, dates, and notes you type into the Add Work, Todo &amp; Follow-up, or Work History screens are written directly to the Google Sheet you've linked. This data is stored in <em>your</em> Google Drive — the extension reads it back from there each time it shows you a dashboard, a report, or a list.</p>
+        <h3>Extension settings</h3>
+        <p>Your custom categories, custom flags, and the ID of your linked spreadsheet are saved using Chrome's built-in <code>chrome.storage.sync</code>, which is tied to your Chrome profile and governed by Google's own account and sync policies — not by us.</p>
+        <h3>Google authorization</h3>
+        <p>When you click "Connect Google Account," Chrome's identity API requests a short-lived access token scoped only to the Google Sheets API (<code>auth/spreadsheets</code>). We never see your Google password, and we never request access to your Gmail, Drive files outside this app's scope, contacts, or any other Google product.</p>
+      </section>
+
+      <section class="clause" id="use">
+        <div class="clause-head"><span class="clause-num">03</span><h2>How it's used</h2></div>
+        <p>Everything the extension collects is used for exactly one purpose: showing it back to you. Specifically, to:</p>
+        <ul>
+          <li>Write the entries you submit to the correct monthly tab in your linked spreadsheet</li>
+          <li>Read those entries back to build your Dashboard, Work History table, and charts</li>
+          <li>Assemble the date-range report you generate under Reports, rendered entirely inside the extension</li>
+          <li>Remember your custom categories and flags so you don't re-create them each time</li>
+        </ul>
+        <p>None of this involves a server we control. There is nowhere for this data to be "used" other than the extension rendering it back to you in your own browser.</p>
+      </section>
+
+      <section class="clause" id="not">
+        <div class="clause-head"><span class="clause-num">04</span><h2>What we don't do</h2></div>
+        <ul class="not-list">
+          <li><span class="mark">✓</span><span>No server or database of our own — there is nothing for us to be breached, subpoenaed, or sold along with.</span></li>
+          <li><span class="mark">✓</span><span>No analytics, telemetry, or usage tracking of any kind.</span></li>
+          <li><span class="mark">✓</span><span>No advertising, and no ad networks embedded anywhere in the extension.</span></li>
+          <li><span class="mark">✓</span><span>No selling, renting, or sharing your data with any third party — ever, under any circumstance.</span></li>
+          <li><span class="mark">✓</span><span>No access to any Google data beyond the Sheets scope you explicitly grant.</span></li>
+        </ul>
+      </section>
+
+      <section class="clause" id="third-party">
+        <div class="clause-head"><span class="clause-num">05</span><h2>Third-party services</h2></div>
+        <p>The only third party involved in MyWorkTracking is Google, through two of its APIs: the Google Sheets API (to store and read your work data) and Chrome's Identity API (to authenticate you). We don't integrate any other service — no analytics vendor, no crash reporter, no CDN, no third-party font or script host.</p>
+        <div class="callout"><p>Because your data is ultimately stored in a Google Sheet, its handling there is also governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's own Privacy Policy</a>. We'd encourage reading it if you want the full picture of how Google, as your storage provider, treats that data.</p></div>
+      </section>
+
+      <section class="clause" id="retention">
+        <div class="clause-head"><span class="clause-num">06</span><h2>Retention &amp; deletion</h2></div>
+        <p>Your data persists for exactly as long as it exists in your Google Sheet — which is to say, entirely under your control. Deleting a row, a monthly tab, or the spreadsheet itself removes that data immediately and completely; we hold no separate copy anywhere.</p>
+        <p>To stop the extension from accessing your account, open Settings and click <strong>Disconnect</strong>, or revoke access at any time from <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google Account → Security → Third-party access</a>. Uninstalling the extension stops all activity but does not delete your spreadsheet — it's yours, and it stays yours.</p>
+      </section>
+
+      <section class="clause" id="security">
+        <div class="clause-head"><span class="clause-num">07</span><h2>Security</h2></div>
+        <p>Access tokens are managed entirely by Chrome's identity API and are never written to disk by the extension itself. Every network request — to Google Sheets or to Google's authorization servers — travels over HTTPS. The extension's code runs under Chrome's Manifest V3 sandboxing, which blocks it from executing any remote or third-party script.</p>
+      </section>
+
+      <section class="clause" id="children">
+        <div class="clause-head"><span class="clause-num">08</span><h2>Children's privacy</h2></div>
+        <p>MyWorkTracking is a work-management tool intended for general audiences managing their own professional tasks. It is not directed at children under 13, and we do not knowingly collect information from anyone in that age group.</p>
+      </section>
+
+      <section class="clause" id="changes">
+        <div class="clause-head"><span class="clause-num">09</span><h2>Changes to this policy</h2></div>
+        <p>If this policy changes, the update will be posted on this page with a revised effective date at the top. Because the extension has no account system or email on file, we won't be able to notify you directly — checking back here before major updates is the reliable way to stay current.</p>
+      </section>
+
+      <section class="clause" id="contact">
+        <div class="clause-head"><span class="clause-num">10</span><h2>Contact</h2></div>
+        <p>Questions about this policy or how MyWorkTracking handles data can be sent to <a href="mailto:ganeshagaram98@gmail.com">ganeshagaram98@gmail.com</a>.</p>
+      </section>
+    </main>
+
+    <footer>
+      <span>MyWorkTracking — Privacy Policy</span>
+      <a class="back-top" href="#overview">Back to top ↑</a>
+    </footer>
+  </div>
+</body>
+</html>

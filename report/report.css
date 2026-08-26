@@ -1,0 +1,26 @@
+body { background: var(--slate-100); }
+
+.report-toolbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 24px; background: var(--surface); border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.report-toolbar .brand-mark {
+  width: 30px; height: 30px; border-radius: 9px; font-size: 14px;
+  background: linear-gradient(135deg, var(--blue-600), var(--green-600)); color: #fff;
+  display: flex; align-items: center; justify-content: center; font-weight: 800;
+}
+
+.report-page {
+  max-width: 860px; margin: 24px auto 60px; background: #fff;
+  padding: 40px 48px; border-radius: 14px; box-shadow: var(--shadow-md);
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; }
+  .report-page { box-shadow: none; margin: 0; padding: 0; max-width: none; border-radius: 0; }
+  .rp-section { page-break-inside: avoid; }
+  @page { margin: 16mm 14mm; }
+}

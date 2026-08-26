@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MyWorkTracking</title>
+<link rel="icon" href="../icons/icon32.png" />
+<script src="../shared/theme-init.js"></script>
+<link rel="stylesheet" href="../shared/theme.css" />
+<link rel="stylesheet" href="../shared/report.css" />
+<link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-mark">W</span>
+        <div>
+          <h1>MyWorkTracking</h1>
+          <p>Personal work manager</p>
+        </div>
+      </div>
+
+      <nav class="nav" id="main-nav">
+        <a href="#/dashboard" data-route="dashboard"><span class="nav-icon">🏠</span>Dashboard</a>
+        <a href="#/add-work" data-route="add-work"><span class="nav-icon">＋</span>Add Work</a>
+        <a href="#/todos" data-route="todos"><span class="nav-icon">✓</span>Todo &amp; Follow-up</a>
+        <a href="#/history" data-route="history"><span class="nav-icon">🕘</span>Work History</a>
+        <a href="#/reports" data-route="reports"><span class="nav-icon">📄</span>Reports</a>
+        <a href="#/settings" data-route="settings"><span class="nav-icon">⚙</span>Settings</a>
+      </nav>
+
+      <button type="button" class="sidebar-footer" id="connection-status" title="Open Settings">
+        <span class="conn-simple" id="conn-simple">
+          <span class="conn-dot"></span>
+          <span class="conn-text">Checking connection…</span>
+        </span>
+        <span class="conn-profile hidden" id="conn-profile">
+          <img class="conn-avatar" id="conn-avatar" alt="" />
+          <span class="conn-profile-text">
+            <span class="conn-name" id="conn-name"></span>
+            <span class="conn-email" id="conn-email"></span>
+          </span>
+        </span>
+      </button>
+    </aside>
+
+    <div class="main-col">
+      <header class="topbar">
+        <button class="icon-btn mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Menu">☰</button>
+        <h2 id="view-title">Dashboard</h2>
+        <div class="topbar-actions">
+          <button class="icon-btn" id="theme-toggle" title="Theme" aria-label="Theme"></button>
+          <button class="btn btn-secondary btn-sm" id="topbar-report">📄 Generate Report</button>
+          <button class="btn btn-primary btn-sm" id="topbar-add">＋ Add Work</button>
+        </div>
+      </header>
+
+      <main id="view-root" class="view-root" aria-live="polite"></main>
+    </div>
+  </div>
+
+  <div id="toast-root"></div>
+  <div id="modal-root"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

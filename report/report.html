@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>MyWorkTracking — Report</title>
+<link rel="icon" href="../icons/icon32.png" />
+<script src="../shared/theme-init.js"></script>
+<link rel="stylesheet" href="../shared/theme.css" />
+<link rel="stylesheet" href="../shared/report.css" />
+<link rel="stylesheet" href="report.css" />
+</head>
+<body>
+  <div class="report-toolbar no-print">
+    <div class="flex items-center gap-2">
+      <span class="brand-mark">W</span>
+      <strong>MyWorkTracking — Report Preview</strong>
+    </div>
+    <div class="flex gap-2">
+      <button class="icon-btn" id="theme-toggle" title="Theme" aria-label="Theme"></button>
+      <button class="btn btn-secondary btn-sm" id="close-tab">Close</button>
+      <button class="btn btn-primary btn-sm" id="print-btn">🖨 Print / Save as PDF</button>
+    </div>
+  </div>
+
+  <div id="report-body" class="report-page">
+    <div class="empty-state">
+      <div class="empty-icon">⏳</div>
+      <h4>Loading report…</h4>
+    </div>
+  </div>
+
+  <div id="toast-root"></div>
+  <script type="module" src="report.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>MyWorkTracking</title>
+<script src="../shared/theme-init.js"></script>
+<link rel="stylesheet" href="../shared/theme.css" />
+<link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="popup">
+    <header class="popup-header">
+      <div class="brand">
+        <span class="brand-mark">W</span>
+        <div>
+          <h1>MyWorkTracking</h1>
+          <p id="brand-date"></p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="theme-toggle" title="Theme" aria-label="Theme"></button>
+        <button class="icon-btn" id="open-settings" title="Settings" aria-label="Settings">⚙</button>
+      </div>
+    </header>
+
+    <div id="setup-banner" class="setup-banner hidden">
+      <p><strong>Setup needed.</strong> Connect Google Sheets to start tracking work.</p>
+      <button class="btn btn-primary btn-sm btn-block" id="setup-btn">Open Setup</button>
+    </div>
+
+    <main id="popup-main" class="hidden">
+      <section class="quick-stats" id="quick-stats">
+        <div class="qs-card">
+          <span class="qs-value" id="qs-completed">–</span>
+          <span class="qs-label">Done today</span>
+        </div>
+        <div class="qs-card">
+          <span class="qs-value" id="qs-todos">–</span>
+          <span class="qs-label">Todos</span>
+        </div>
+        <div class="qs-card">
+          <span class="qs-value" id="qs-followups">–</span>
+          <span class="qs-label">Follow-ups</span>
+        </div>
+      </section>
+
+      <form id="quick-add-form" class="quick-add-form">
+        <div class="field">
+          <label for="qa-date">Date</label>
+          <input class="input" type="date" id="qa-date" required />
+        </div>
+        <div class="field">
+          <label for="qa-desc">Completed work</label>
+          <textarea class="textarea" id="qa-desc" rows="2" placeholder="What did you work on?" required></textarea>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="qa-category">Category</label>
+            <select class="select" id="qa-category"></select>
+          </div>
+          <div class="field">
+            <label for="qa-priority">Priority</label>
+            <select class="select" id="qa-priority">
+              <option>Low</option>
+              <option selected>Medium</option>
+              <option>High</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success btn-block" id="qa-submit">＋ Add Work</button>
+      </form>
+
+      <div class="popup-footer">
+        <button class="btn btn-secondary btn-block" id="open-dashboard">Open Full Dashboard →</button>
+      </div>
+    </main>
+
+    <div id="popup-loading" class="popup-loading">
+      <span class="spinner spinner-dark"></span>
+      <span>Loading…</span>
+    </div>
+  </div>
+
+  <div id="toast-root"></div>
+  <div id="modal-root"></div>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
