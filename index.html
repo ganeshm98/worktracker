@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="google-site-verification" content="google50a9c1d1733abbf5.html">
+<title>MyWorkTracking — Daily work, todos &amp; reports, backed by your own Google Sheet</title>
+<meta name="description" content="MyWorkTracking is a Chrome extension for logging daily work, todos and follow-ups, and generating PDF reports — with a Google Sheet you own as the only backend. No server, no tracking." />
+<link rel="icon" href="icons/icon32.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f5f8fc;
+    --surface: #ffffff;
+    --ink: #142544;
+    --text: #37476a;
+    --text-muted: #6b7999;
+    --line: #dde5f1;
+    --line-strong: #c4d1e6;
+    --accent-blue: #2451b5;
+    --accent-blue-ink: #16357f;
+    --accent-blue-soft: #e9eff9;
+    --accent-green: #1e8f63;
+    --accent-green-soft: #e5f5ec;
+    --shadow: 0 1px 2px rgba(20, 37, 68, 0.04), 0 8px 24px rgba(20, 37, 68, 0.05);
+
+    --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --font-body: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0a1220;
+      --surface: #101b2c;
+      --ink: #eaf0fb;
+      --text: #c1cee4;
+      --text-muted: #8194b5;
+      --line: #223250;
+      --line-strong: #2d4066;
+      --accent-blue: #6e9bf5;
+      --accent-blue-ink: #a9c4ff;
+      --accent-blue-soft: rgba(110, 155, 245, 0.13);
+      --accent-green: #45cf94;
+      --accent-green-soft: rgba(69, 207, 148, 0.13);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.28);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0a1220;
+    --surface: #101b2c;
+    --ink: #eaf0fb;
+    --text: #c1cee4;
+    --text-muted: #8194b5;
+    --line: #223250;
+    --line-strong: #2d4066;
+    --accent-blue: #6e9bf5;
+    --accent-blue-ink: #a9c4ff;
+    --accent-blue-soft: rgba(110, 155, 245, 0.13);
+    --accent-green: #45cf94;
+    --accent-green-soft: rgba(69, 207, 148, 0.13);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.28);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent-blue-ink); text-underline-offset: 2px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 2px; border-radius: 2px; }
+  img { max-width: 100%; display: block; }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Nav ---------- */
+  nav.top {
+    border-bottom: 1px solid var(--line);
+  }
+  nav.top .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 20px; padding-bottom: 20px;
+  }
+  .brand-row { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand-mark {
+    width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+    color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .brand-name { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.04em; color: var(--ink); font-weight: 600; }
+  .nav-links { display: flex; gap: 22px; font-size: 14px; }
+  .nav-links a { color: var(--text); text-decoration: none; }
+  .nav-links a:hover { color: var(--accent-blue-ink); }
+
+  /* ---------- Hero ---------- */
+  header.hero { padding: 72px 0 56px; text-align: center; }
+  header.hero .brand-mark { width: 56px; height: 56px; border-radius: 14px; font-size: 26px; margin: 0 auto 24px; }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(32px, 5vw, 46px);
+    line-height: 1.15;
+    color: var(--ink);
+    margin: 0 0 18px;
+    text-wrap: balance;
+  }
+  .tagline {
+    font-size: 18px; color: var(--text); max-width: 560px; margin: 0 auto 32px;
+  }
+  .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 22px; border-radius: 10px; font-size: 15px; font-weight: 600;
+    text-decoration: none; border: 1px solid transparent;
+  }
+  .btn-primary { background: var(--accent-blue); color: #fff; }
+  .btn-primary:hover { background: var(--accent-blue-ink); }
+  .btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
+  .btn-secondary:hover { border-color: var(--accent-blue); color: var(--accent-blue-ink); }
+
+  /* ---------- Sections ---------- */
+  section { padding: 8px 0 64px; }
+  .section-label {
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-blue-ink);
+    text-align: center; margin: 0 0 12px;
+  }
+  h2 {
+    font-family: var(--font-display); font-weight: 600; font-size: 28px;
+    color: var(--ink); text-align: center; margin: 0 0 40px; text-wrap: balance;
+  }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: var(--shadow); padding: 24px;
+  }
+  .card .icon {
+    width: 38px; height: 38px; border-radius: 10px; background: var(--accent-blue-soft);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+    font-size: 18px;
+  }
+  .card h3 { font-family: var(--font-body); font-size: 16px; font-weight: 700; color: var(--ink); margin: 0 0 8px; }
+  .card p { font-size: 14.5px; color: var(--text); margin: 0; }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; counter-reset: step; }
+  @media (max-width: 720px) { .steps { grid-template-columns: 1fr; } }
+  .step { position: relative; padding-left: 44px; }
+  .step::before {
+    counter-increment: step; content: counter(step);
+    position: absolute; left: 0; top: 0;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--accent-blue-soft); color: var(--accent-blue-ink);
+    font-family: var(--font-mono); font-weight: 700; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step h3 { font-size: 15px; font-weight: 700; color: var(--ink); margin: 3px 0 6px; }
+  .step p { font-size: 14px; color: var(--text); margin: 0; }
+
+  .trust {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: var(--shadow); padding: 32px; display: flex; gap: 24px; align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .trust .icon {
+    width: 40px; height: 40px; border-radius: 10px; background: var(--accent-green-soft);
+    color: var(--accent-green); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700;
+  }
+  .trust-body { flex: 1; min-width: 240px; }
+  .trust-body h3 { font-size: 16px; font-weight: 700; color: var(--ink); margin: 4px 0 8px; }
+  .trust-body p { font-size: 14.5px; margin: 0 0 10px; max-width: 60ch; }
+  .trust-body a { font-size: 14px; font-weight: 600; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 28px 0 40px;
+  }
+  footer .wrap {
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+    font-size: 13px; color: var(--text-muted);
+  }
+  footer .links { display: flex; gap: 18px; }
+  footer a { color: var(--text-muted); text-decoration: none; }
+  footer a:hover { color: var(--accent-blue-ink); }
+</style>
+</head>
+<body>
+
+  <nav class="top">
+    <div class="wrap">
+      <a class="brand-row" href="#top">
+        <span class="brand-mark" aria-hidden="true">W</span>
+        <span class="brand-name">MYWORKTRACKING</span>
+      </a>
+      <div class="nav-links">
+        <a href="#how-it-works">How it works</a>
+        <a href="legal/privacy-policy.html">Privacy Policy</a>
+        <a href="https://github.com/ganeshm98/worktracker" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="top"></div>
+  <header class="hero">
+    <div class="wrap">
+      <img class="brand-mark" src="icons/icon128.png" alt="" width="56" height="56" />
+      <h1>Track your work. Own your data.</h1>
+      <p class="tagline">MyWorkTracking is a Chrome extension for logging daily work, todos, and follow-ups — with a Google Sheet in <strong>your own</strong> Drive as the only backend. No server, no account, no tracking.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="legal/privacy-policy.html">Read the Privacy Policy</a>
+        <a class="btn btn-secondary" href="https://github.com/ganeshm98/worktracker" target="_blank" rel="noopener">View source on GitHub</a>
+      </div>
+    </div>
+  </header>
+
+  <section aria-labelledby="features-label">
+    <div class="wrap">
+      <p class="section-label" id="features-label">What it does</p>
+      <h2>Everything you need to log a working day</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="icon" aria-hidden="true">📋</div>
+          <h3>Work, todos &amp; follow-ups</h3>
+          <p>Log entries with categories, priorities, flags and notes in seconds from the toolbar popup or the full app view.</p>
+        </div>
+        <div class="card">
+          <div class="icon" aria-hidden="true">📊</div>
+          <h3>Dashboard &amp; charts</h3>
+          <p>See what you worked on, what's pending, and how your time breaks down — rendered with the Canvas API, no chart libraries.</p>
+        </div>
+        <div class="card">
+          <div class="icon" aria-hidden="true">🧾</div>
+          <h3>PDF reports</h3>
+          <p>Generate a clean, date-range report of your work history using Chrome's native Print to PDF — no third-party service involved.</p>
+        </div>
+        <div class="card">
+          <div class="icon" aria-hidden="true">📁</div>
+          <h3>Google Sheets backend</h3>
+          <p>One spreadsheet, a tab per month, created automatically in your own Google Drive. You can always open and edit it directly.</p>
+        </div>
+        <div class="card">
+          <div class="icon" aria-hidden="true">🔔</div>
+          <h3>Toolbar reminders</h3>
+          <p>A badge on the extension icon shows your pending todo and follow-up count for today, so nothing slips through.</p>
+        </div>
+        <div class="card">
+          <div class="icon" aria-hidden="true">🔒</div>
+          <h3>No server, ever</h3>
+          <p>Every request goes straight from your browser to Google's own APIs using your own sign-in. There's nothing for us to hold or lose.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how-it-works" aria-labelledby="how-label">
+    <div class="wrap">
+      <p class="section-label" id="how-label">How it works</p>
+      <h2>Three steps, no setup on our end</h2>
+      <div class="steps">
+        <div class="step">
+          <h3>Connect your Google Account</h3>
+          <p>Sign in once. The extension requests access only to Google Sheets — never Gmail, Drive at large, or contacts.</p>
+        </div>
+        <div class="step">
+          <h3>Log your day</h3>
+          <p>Add work items, todos and follow-ups as they happen. Each entry is written straight to your linked spreadsheet.</p>
+        </div>
+        <div class="step">
+          <h3>Review &amp; report</h3>
+          <p>Check your dashboard anytime, or generate a PDF report for any date range when you need to share your progress.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="trust-label">
+    <div class="wrap">
+      <p class="section-label" id="trust-label">Data &amp; privacy</p>
+      <div class="trust">
+        <div class="icon" aria-hidden="true">✓</div>
+        <div class="trust-body">
+          <h3>Your Sheet is the only database</h3>
+          <p>MyWorkTracking has no backend of its own. Nothing you enter is sent anywhere except your own Google Sheet, and only you can see it unless you choose to share that spreadsheet yourself. No analytics, no ads, no selling data — ever.</p>
+          <a href="legal/privacy-policy.html">Read the full Privacy Policy →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 MyWorkTracking</span>
+      <div class="links">
+        <a href="legal/privacy-policy.html">Privacy Policy</a>
+        <a href="https://github.com/ganeshm98/worktracker" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:ganeshagaram98@gmail.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
