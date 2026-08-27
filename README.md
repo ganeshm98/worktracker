@@ -1,38 +1,44 @@
 # MyWorkTracking
 
-A Chrome extension (Manifest V3) for tracking daily work, todos, and follow-ups — with **Google Sheets as the backend**. One spreadsheet, a tab per month, created automatically as you go.
+A browser extension (Manifest V3) for tracking daily work, todos, and follow-ups — with **Google Sheets as the backend**. One spreadsheet, a tab per month, created automatically as you go. Works in Chrome, Edge, and Firefox.
 
-No build step is required — it's plain HTML/CSS/JS (ES modules), so you can load it as an unpacked extension as-is. No third-party libraries are bundled: charts are drawn with the Canvas API and PDF export uses Chrome's native "Print to PDF", so nothing is fetched from a CDN and nothing runs that isn't in this folder.
+No build step is required — it's plain HTML/CSS/JS (ES modules), so you can load it as an unpacked/temporary extension as-is. No third-party libraries are bundled: charts are drawn with the Canvas API and PDF export uses the browser's native "Print to PDF", so nothing is fetched from a CDN and nothing runs that isn't in this folder.
 
 ## 1. One-time Google Cloud setup (required)
 
-The extension needs its own OAuth client so Chrome can ask **you** to sign in and grant access to **your own** Google Sheets. This is not an API key or secret — a Chrome extension OAuth client ID is public by design (it identifies the app, not a user), so it's safe to have inside `manifest.json`. Nothing else is embedded: no service-account keys, no secrets.
+The extension needs its own OAuth client so the browser can ask **you** to sign in and grant access to **your own** Google Sheets. Sign-in goes through [`launchWebAuthFlow`](shared/auth.js) — the one identity API Chrome, Edge, and Firefox all implement the same way (unlike `chrome.identity.getAuthToken`, which is Chrome-only and doesn't work in Firefox or Edge). This means the OAuth client must be a **Web application** type, not the "Chrome Extension" type. It's still just a public identifier, not a secret — safe to have in source.
 
-1. **Load the extension once (unpacked) to get its ID.**
-   - Go to `chrome://extensions`, enable **Developer mode** (top right).
-   - Click **Load unpacked** and select this `worktracker` folder.
-   - Copy the **ID** shown on the extension's card (a 32-character string). This ID stays stable as long as the folder doesn't move.
+1. **Create a Google Cloud project** (or reuse one) at [console.cloud.google.com](https://console.cloud.google.com).
 
-2. **Create a Google Cloud project** (or reuse one) at [console.cloud.google.com](https://console.cloud.google.com).
+2. **Enable the Google Sheets API**: *APIs & Services → Library* → search "Google Sheets API" → **Enable**.
 
-3. **Enable the Google Sheets API**: *APIs & Services → Library* → search "Google Sheets API" → **Enable**.
-
-4. **Configure the OAuth consent screen**: *APIs & Services → OAuth consent screen*.
+3. **Configure the OAuth consent screen**: *APIs & Services → OAuth consent screen*.
    - User type: **External** is fine for personal use (add yourself under **Test users** so you don't need Google's app-review process).
-   - Scopes: you can add `https://www.googleapis.com/auth/spreadsheets` (also declared in `manifest.json`).
+   - Scopes: `https://www.googleapis.com/auth/spreadsheets`, `.../auth/userinfo.email`, `.../auth/userinfo.profile` (also declared in `shared/constants.js`).
 
-5. **Create the OAuth Client ID**: *APIs & Services → Credentials → Create Credentials → OAuth client ID*.
-   - Application type: **Chrome Extension**.
-   - Item ID: paste the extension ID you copied in step 1.
-   - Click **Create** and copy the generated Client ID (ends in `.apps.googleusercontent.com`).
+4. **Create the OAuth Client ID**: *APIs & Services → Credentials → Create Credentials → OAuth client ID*.
+   - Application type: **Web application** (not "Chrome Extension" — that type only supports the Chrome-only `getAuthToken` flow).
+   - Leave **Authorized redirect URIs** empty for now — you'll add the real ones in step 6, since each browser reports its own.
 
-6. **Paste it into `manifest.json`**: open [manifest.json](manifest.json) and replace:
-   ```json
-   "client_id": "REPLACE_WITH_YOUR_OAUTH_CLIENT_ID.apps.googleusercontent.com",
+5. **Paste the Client ID into `shared/constants.js`**: replace
+   ```js
+   export const OAUTH_CLIENT_ID = "REPLACE_WITH_YOUR_WEB_APP_OAUTH_CLIENT_ID.apps.googleusercontent.com";
    ```
-   with your real client ID.
+   with the real Client ID (ends in `.apps.googleusercontent.com`).
 
-7. Go back to `chrome://extensions` and click the **reload** icon on the MyWorkTracking card.
+6. **Register each browser's redirect URI.** Load the extension, open its background page/service-worker console, and run the matching line:
+   - Chrome/Edge: `chrome://extensions` (or `edge://extensions`) → enable **Developer mode** → **Load unpacked** → select this folder → click **service worker** under the card to open its console.
+   - Firefox: `about:debugging#/runtime/this-firefox` → **Load Temporary Add-on** → select `manifest.json` → click **Inspect** on the loaded extension to open its console.
+   
+   ```js
+   chrome.identity.getRedirectURL()   // Chrome and Edge
+   browser.identity.getRedirectURL()  // Firefox
+   ```
+   Copy the exact string each browser prints (they'll differ per browser, and Chrome/Edge's depends on the extension's ID — see the note on `key` below) and paste all of them into the OAuth client's **Authorized redirect URIs** list in Cloud Console, then **Save**.
+
+7. Reload the extension in each browser after saving.
+
+> **Chrome/Edge extension ID stability:** without a fixed `"key"` in `manifest.json`, Chrome and Edge each assign a different extension ID per install context (unpacked vs. each store's published copy), which changes the `chromiumapp.org` redirect URI and breaks sign-in — the same issue this project hit once already when the OAuth client was tied to a since-changed ID. If you publish to multiple stores, pin a `"key"` so the ID (and redirect URI) stays identical everywhere, and register that one URI instead of re-adding one per environment.
 
 ## 2. Using the extension
 
@@ -46,7 +52,7 @@ The extension needs its own OAuth client so Chrome can ask **you** to sign in an
 ## 3. Project structure
 
 ```
-manifest.json              Manifest V3 config (permissions, OAuth scopes)
+manifest.json              Manifest V3 config (permissions, cross-browser identity)
 background/service-worker.js   Badge updates (no data mutation)
 shared/                    Reusable modules: Sheets API client, auth, storage,
                             charts (canvas), badges, UI helpers (toast/modal), theme.css
@@ -67,6 +73,6 @@ Every monthly sheet tab shares the same columns:
 
 ## 5. Notes on security
 
-- No API keys or secrets are embedded in the code. Authentication is delegated entirely to `chrome.identity` and your Google account.
+- No API keys or secrets are embedded in the code. Authentication is delegated entirely to `chrome.identity`/`browser.identity` (`launchWebAuthFlow`) and your Google account; the access token is cached locally in `chrome.storage.local`, never synced or sent anywhere but Google.
 - The extension only ever talks to `sheets.googleapis.com` (your data) and `accounts.google.com` (sign-in/sign-out) — nothing is sent to any third-party server.
 - All Sheets API errors (expired session, no access, spreadsheet not found, rate limiting) are caught and shown as a clear, actionable toast message rather than a raw error.

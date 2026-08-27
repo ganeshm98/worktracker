@@ -1,6 +1,6 @@
 import { getSpreadsheetId, getCategories, getFlags } from "../shared/storage.js";
 import { verifySpreadsheet } from "../shared/sheetsApi.js";
-import { getUserProfile } from "../shared/auth.js";
+import { getUserProfile, hasStoredSession } from "../shared/auth.js";
 import { showToast } from "../shared/ui.js";
 import { initTheme, mountThemeToggle } from "../shared/theme.js";
 
@@ -60,6 +60,13 @@ export async function refreshConnectionStatus() {
     setConnStatus("offline", "No spreadsheet linked");
     return false;
   }
+  if (!(await hasStoredSession())) {
+    cachedProfile = null;
+    appState.connected = false;
+    setConnStatus("offline", "Not connected");
+    return false;
+  }
+
   const result = await verifySpreadsheet(appState.spreadsheetId, { interactive: false });
   if (!result.ok) {
     cachedProfile = null;
@@ -110,8 +117,12 @@ async function renderRoute() {
 
   await refreshAppState();
 
-  if (!appState.spreadsheetId && route !== "settings") {
-    showToast("Connect Google Sheets to get started.", "info");
+  const hasSession = appState.spreadsheetId ? await hasStoredSession() : false;
+  if ((!appState.spreadsheetId || !hasSession) && route !== "settings") {
+    showToast(
+      appState.spreadsheetId ? "Reconnect your Google account to continue." : "Connect Google Sheets to get started.",
+      "info"
+    );
     location.hash = "#/settings";
     return;
   }

@@ -2,7 +2,17 @@
 
 export const SHEETS_API = "https://sheets.googleapis.com/v4/spreadsheets";
 
-export const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
+export const SCOPES = [
+  "https://www.googleapis.com/auth/spreadsheets",
+  "https://www.googleapis.com/auth/userinfo.email",
+  "https://www.googleapis.com/auth/userinfo.profile"
+];
+
+// A "Web application" type OAuth client (not "Chrome Extension" type) — required by
+// launchWebAuthFlow, which chrome.identity and browser.identity both implement the
+// same way. Register each browser's exact identity.getRedirectURL() value under
+// this client's "Authorized redirect URIs" in Google Cloud Console.
+export const OAUTH_CLIENT_ID = "966732565112-7d3e5cjkuh3siaakk8fvp32gg9eva051.apps.googleusercontent.com";
 
 // Column order written to / read from every monthly sheet tab.
 // Keep this in sync with COLUMN_KEYS below.

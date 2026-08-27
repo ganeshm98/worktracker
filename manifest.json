@@ -30,15 +30,12 @@
     "https://www.googleapis.com/*",
     "https://accounts.google.com/*"
   ],
-  "oauth2": {
-    "client_id": "966732565112-v4j7a4gpda8qiusl2ig28g28j1gt8kjq.apps.googleusercontent.com",
-    "scopes": [
-      "https://www.googleapis.com/auth/spreadsheets",
-      "https://www.googleapis.com/auth/userinfo.email",
-      "https://www.googleapis.com/auth/userinfo.profile"
-    ]
-  },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "worktracker@ganeshm98.github.io"
+    }
   }
 }

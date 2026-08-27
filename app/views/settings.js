@@ -44,7 +44,7 @@ export async function render(container, ctx) {
         <h3 class="card-title">Spreadsheet</h3>
         <p class="card-subtitle">One spreadsheet holds all your data, with a separate tab created automatically for each month.</p>
 
-        <div id="current-sheet-box" class="current-sheet-box ${spreadsheetId ? "" : "hidden"}">
+        <div id="current-sheet-box" class="current-sheet-box ${spreadsheetId && signedIn ? "" : "hidden"}">
           <div>
             <div class="css-label">Linked spreadsheet</div>
             <div id="current-sheet-title">Loading…</div>
@@ -52,7 +52,7 @@ export async function render(container, ctx) {
           <a id="open-sheet-link" href="#" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">Open in Sheets ↗</a>
         </div>
 
-        <div id="formatting-box" class="current-sheet-box ${spreadsheetId ? "" : "hidden"}" style="background:var(--green-50);border-color:var(--green-100);">
+        <div id="formatting-box" class="current-sheet-box ${spreadsheetId && signedIn ? "" : "hidden"}" style="background:var(--green-50);border-color:var(--green-100);">
           <div>
             <div class="css-label" style="color:var(--green-700);">Cell colors</div>
             <div style="font-size:13.5px;color:var(--slate-900);">Color-code Status, Priority &amp; Flag cells to match the extension</div>
@@ -107,7 +107,7 @@ export async function render(container, ctx) {
   injectSettingsStyles();
   renderTagList(document.getElementById("category-manager"), categories, removeCategory);
   renderTagList(document.getElementById("flag-manager"), flags, removeFlag);
-  refreshSheetBox(spreadsheetId);
+  refreshSheetBox(spreadsheetId, signedIn);
 
   // --- Auth ---
   document.getElementById("auth-btn").addEventListener("click", async (e) => {
@@ -260,10 +260,10 @@ export async function render(container, ctx) {
     showToast("Local cache cleared.", "success");
   });
 
-  async function refreshSheetBox(id) {
+  async function refreshSheetBox(id, connected = true) {
     const box = document.getElementById("current-sheet-box");
     const formattingBox = document.getElementById("formatting-box");
-    if (!id) {
+    if (!id || !connected) {
       box.classList.add("hidden");
       formattingBox.classList.add("hidden");
       return;
