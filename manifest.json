@@ -1,5 +1,6 @@
 {
   "manifest_version": 3,
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr4ZyqXnOXg0PpXhWdTHqlSFebvTrjdVsQCUo+AmXHR7huDungfEHkxKwbmrBJlPr2t+nN7GweEaQabRlT9lKRTm/HlyXz4iWdGiTIa0xJDLubVLqVRA0MBbfK58wEkOJpdlMA1LX9cb7QcO/qXrlNLgZ0huPXFNJx+tibXThbbLqeo6C3bgHFlgTDnL6lnSYEtunkxPNe78RM3Bpj4HXiarZHspbwbmDEUHHCfsime9xYw4lvEj97CNvB96Z+ytGsfKBYIUcSWPZKeKEbFzssRaJ0nriedjChW/r6R1dk9gJfafoxBA7c/CMU2e4zZJl715gWTMpspf5aIyMDPWNaQIDAQAB",
   "name": "MyWorkTracking",
   "short_name": "MyWorkTracking",
   "version": "1.0.0",
